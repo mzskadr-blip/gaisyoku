@@ -1,0 +1,328 @@
+(function () {
+  "use strict";
+
+  const { TILES, createShuffledWall, getTile, createTileElement } = window.GourmetTiles;
+  const { sortTiles, findWinningDecompositions, findWaits, calculateTilePoints } = window.GourmetLogic;
+
+  const state = {
+    wall: [],
+    hand: [],
+    discards: [],
+    selectedIndex: null,
+    justDrawnTileId: null,
+    lastWinMode: "ツモ", // "ツモ" or "ロン"
+    lastWinHand: null
+  };
+
+  // DOM要素
+  const elWallCount = document.getElementById("wallCount");
+  const elHandCount = document.getElementById("handCount");
+  const elDiscardCount = document.getElementById("discardCount");
+  const elStatusMessage = document.getElementById("statusMessage");
+  const elHandArea = document.getElementById("handArea");
+  const elDiscardArea = document.getElementById("discardArea");
+  const elWaitSection = document.getElementById("waitSection");
+  const elWaitTiles = document.getElementById("waitTiles");
+  const elPaletteArea = document.getElementById("paletteArea");
+
+  const btnDealParent = document.getElementById("btnDealParent");
+  const btnDealChild = document.getElementById("btnDealChild");
+  const btnTsumoDraw = document.getElementById("btnTsumoDraw");
+  const btnDiscard = document.getElementById("btnDiscard");
+  const btnWin = document.getElementById("btnWin");
+  const btnResetSamples = document.getElementById("btnResetSamples");
+
+  const winModal = document.getElementById("winModal");
+  const winTypeLabel = document.getElementById("winTypeLabel");
+  const winDecomposition = document.getElementById("winDecomposition");
+  const winTilePoints = document.getElementById("winTilePoints");
+  const btnCloseModal = document.getElementById("btnCloseModal");
+
+  const sampleModal = document.getElementById("sampleModal");
+  const btnCloseSampleModal = document.getElementById("btnCloseSampleModal");
+
+  // 初期化：牌パレット描画
+  function initPalette() {
+    elPaletteArea.innerHTML = "";
+    for (const tile of TILES) {
+      const el = createTileElement(tile.id);
+      el.addEventListener("click", () => onPaletteTileClick(tile.id));
+      elPaletteArea.appendChild(el);
+    }
+  }
+
+  // 配牌スタート
+  function startDeal(isParent) {
+    state.wall = createShuffledWall();
+    state.discards = [];
+    state.selectedIndex = null;
+    state.lastWinHand = null;
+
+    const dealCount = isParent ? 14 : 13;
+    const rawHand = state.wall.splice(0, dealCount);
+
+    if (isParent) {
+      // 14枚目だけ最後に引き立て表示、最初の13枚をソート
+      const drawn = rawHand.pop();
+      state.hand = [...sortTiles(rawHand), drawn];
+      state.justDrawnTileId = drawn;
+      state.lastWinMode = "ツモ";
+      elStatusMessage.textContent = "親で開始しました（14枚）。1枚選んで捨ててください。";
+    } else {
+      state.hand = sortTiles(rawHand);
+      state.justDrawnTileId = null;
+      elStatusMessage.textContent = "子で開始しました（13枚）。「山からツモ」を押してください。";
+    }
+    render();
+  }
+
+  // ツモ
+  function drawTile() {
+    if (state.hand.length !== 13) return;
+    if (state.wall.length === 0) {
+      elStatusMessage.textContent = "山牌がなくなりました（流局）。";
+      return;
+    }
+    const drawn = state.wall.pop();
+    state.hand = [...sortTiles(state.hand), drawn];
+    state.justDrawnTileId = drawn;
+    state.selectedIndex = null;
+    state.lastWinMode = "ツモ";
+    elStatusMessage.textContent = `「${getTile(drawn).name}」をツモりました。`;
+    render();
+  }
+
+  // 捨て牌
+  function discardSelected() {
+    if (state.hand.length !== 14 || state.selectedIndex === null) return;
+    const removed = state.hand.splice(state.selectedIndex, 1)[0];
+    state.discards.push(removed);
+    state.hand = sortTiles(state.hand);
+    state.selectedIndex = null;
+    state.justDrawnTileId = null;
+    elStatusMessage.textContent = `「${getTile(removed).name}」を捨てました。`;
+    render();
+  }
+
+  // パレットタップ時の処理
+  function onPaletteTileClick(tileId) {
+    const mode = document.querySelector('input[name="paletteMode"]:checked').value;
+
+    if (mode === "ron") {
+      if (state.hand.length !== 13) {
+        alert("ロンテストは手牌が13枚のときに実行できます。");
+        return;
+      }
+      const testHand = [...state.hand, tileId];
+      const decomps = findWinningDecompositions(testHand);
+      if (decomps.length > 0) {
+        showWinModal("ロン", testHand, decomps);
+      } else {
+        elStatusMessage.textContent = `「${getTile(tileId).name}」ではロンできません。`;
+      }
+    } else {
+      // 検証用編集モード
+      if (state.hand.length < 14) {
+        state.hand.push(tileId);
+        if (state.hand.length === 13) state.hand = sortTiles(state.hand);
+      } else {
+        // 選択中の牌（なければ先頭）を置き換える
+        const targetIdx = state.selectedIndex !== null ? state.selectedIndex : 0;
+        state.hand[targetIdx] = tileId;
+        state.selectedIndex = null;
+      }
+      state.justDrawnTileId = null;
+      state.lastWinMode = "ツモ/編集";
+      elStatusMessage.textContent = `検証用：手牌に「${getTile(tileId).name}」を反映しました。`;
+      render();
+    }
+  }
+
+  // アガリ結果モーダル表示
+  function showWinModal(modeLabel, fullHand, decomps) {
+    winTypeLabel.textContent = `${modeLabel}アガリ成立！（解釈パターン数：${decomps.length}通り）`;
+    winDecomposition.innerHTML = "";
+
+    // 第1段階では最初の成立パターンを主に表示（複数ある場合は全パターン概要を表示）
+    decomps.forEach((decomp, idx) => {
+      const box = document.createElement("div");
+      box.className = "meld-group";
+
+      const title = document.createElement("div");
+      title.className = "meld-label";
+      title.textContent = decomps.length > 1 ? `構成パターン ${idx + 1}` : "成立した4面子＋1雀頭";
+      box.appendChild(title);
+
+      // 雀頭 + 面子を描画
+      const row = document.createElement("div");
+      row.className = "tile-row";
+
+      // 雀頭
+      const headWrap = createGroupSpan("雀頭", [decomp.head, decomp.head]);
+      row.appendChild(headWrap);
+
+      // 面子
+      decomp.melds.forEach((m) => {
+        const label = m.type === "kotsu" ? "刻子" : "順子";
+        row.appendChild(createGroupSpan(label, m.tiles));
+      });
+
+      box.appendChild(row);
+      winDecomposition.appendChild(box);
+    });
+
+    winTilePoints.textContent = calculateTilePoints(fullHand);
+    winModal.classList.remove("hidden");
+  }
+
+  function createGroupSpan(label, tileIds) {
+    const wrap = document.createElement("div");
+    wrap.style.border = "1px solid #cbd5e1";
+    wrap.style.borderRadius = "6px";
+    wrap.style.padding = "4px 6px";
+    wrap.style.background = "#fff";
+
+    const cap = document.createElement("div");
+    cap.style.fontSize = "0.7rem";
+    cap.style.fontWeight = "700";
+    cap.style.color = "#475569";
+    cap.style.marginBottom = "3px";
+    cap.textContent = label;
+    wrap.appendChild(cap);
+
+    const tilesDiv = document.createElement("div");
+    tilesDiv.className = "tile-row";
+    tileIds.forEach(id => {
+      tilesDiv.appendChild(createTileElement(id, { small: true }));
+    });
+    wrap.appendChild(tilesDiv);
+    return wrap;
+  }
+
+  // 画面全体の再描画
+  function render() {
+    elWallCount.textContent = state.wall.length;
+    elHandCount.textContent = state.hand.length;
+    elDiscardCount.textContent = state.discards.length;
+
+    // 手牌描画
+    elHandArea.innerHTML = "";
+    state.hand.forEach((id, idx) => {
+      const isJustDrawn = idx === state.hand.length - 1 && state.hand.length === 14 && state.justDrawnTileId === id;
+      const tileEl = createTileElement(id, {
+        selected: state.selectedIndex === idx,
+        justDrawn: isJustDrawn
+      });
+      tileEl.addEventListener("click", () => {
+        if (state.hand.length !== 14) return;
+        if (state.selectedIndex === idx) {
+          // 2回連続タップでそのまま捨てる（スマホ快適操作）
+          discardSelected();
+        } else {
+          state.selectedIndex = idx;
+          render();
+        }
+      });
+      elHandArea.appendChild(tileEl);
+    });
+
+    // 捨て牌描画
+    elDiscardArea.innerHTML = "";
+    state.discards.forEach((id) => {
+      elDiscardArea.appendChild(createTileElement(id, { small: true }));
+    });
+
+    // ボタン制御（ルール違反操作をブロック）
+    btnTsumoDraw.disabled = state.hand.length !== 13 || state.wall.length === 0;
+    btnDiscard.disabled = state.hand.length !== 14 || state.selectedIndex === null;
+
+    // 14枚時：アガリ判定
+    if (state.hand.length === 14) {
+      const decomps = findWinningDecompositions(state.hand);
+      btnWin.disabled = decomps.length === 0;
+      elWaitSection.classList.add("hidden");
+    } else if (state.hand.length === 13) {
+      btnWin.disabled = true;
+      // 13枚時：待ち牌（テンパイ）判定
+      const waits = findWaits(state.hand);
+      if (waits.length > 0) {
+        elWaitSection.classList.remove("hidden");
+        elWaitTiles.innerHTML = "";
+        waits.forEach(wId => elWaitTiles.appendChild(createTileElement(wId, { small: true })));
+      } else {
+        elWaitSection.classList.add("hidden");
+      }
+    } else {
+      btnWin.disabled = true;
+      elWaitSection.classList.add("hidden");
+    }
+  }
+
+  // サンプル手牌ロード
+  function loadSample(sampleKey) {
+    state.wall = createShuffledWall();
+    state.discards = [];
+    state.selectedIndex = null;
+    state.justDrawnTileId = null;
+
+    const samples = {
+      yamaoka_shuntsu: [
+        "marugen", "yamaokaya", "hachiban", // ラーメン順子（山岡家入り）
+        "yoshinoya", "matsuya", "sukiya",  // 牛丼順子
+        "gyukaku", "gyukaku", "gyukaku",   // 刻子
+        "komeda", "komeda", "komeda",      // 刻子
+        "jojoen", "jojoen"                 // 雀頭
+      ],
+      yamaoka_kotsu: [
+        "yamaokaya", "yamaokaya", "yamaokaya", // 山岡家×3刻子
+        "hanamaru", "marugame", "sukesan",     // うどん順子（資さん入り）
+        "torikizoku", "akiyoshi", "isomaru",   // 居酒屋順子
+        "misdo", "misdo", "misdo",             // 刻子
+        "mcdonalds", "mcdonalds"               // 雀頭
+      ],
+      gyudon_zanmai: [
+        "yoshinoya", "yoshinoya", "yoshinoya",
+        "matsuya", "matsuya", "matsuya",
+        "sukiya", "sukiya", "sukiya",
+        "royalhost", "saizeriya", "gusto",
+        "starbucks", "starbucks"
+      ],
+      one_point_shuntsu: [
+        "saizeriya", "gusto", "royalhost",     // 1点牌入り順子
+        "misdo", "chateraise", "baskin",       // 1点牌入り順子
+        "mcdonalds", "mos", "zetteria",        // 1点牌入り順子
+        "ootoya", "yayoiken", "katsuya",       // 和食順子
+        "kurazushi"                            // 単騎待ち（13枚）
+      ]
+    };
+
+    state.hand = sortTiles(samples[sampleKey]);
+    state.lastWinMode = "サンプル確認";
+    sampleModal.classList.add("hidden");
+    elStatusMessage.textContent = "検証用サンプル手牌を読み込みました。";
+    render();
+  }
+
+  // イベント登録
+  btnDealParent.addEventListener("click", () => startDeal(true));
+  btnDealChild.addEventListener("click", () => startDeal(false));
+  btnTsumoDraw.addEventListener("click", drawTile);
+  btnDiscard.addEventListener("click", discardSelected);
+  btnWin.addEventListener("click", () => {
+    const decomps = findWinningDecompositions(state.hand);
+    if (decomps.length > 0) {
+      showWinModal(state.lastWinMode, state.hand, decomps);
+    }
+  });
+
+  btnResetSamples.addEventListener("click", () => sampleModal.classList.remove("hidden"));
+  btnCloseModal.addEventListener("click", () => winModal.classList.add("hidden"));
+  btnCloseSampleModal.addEventListener("click", () => sampleModal.classList.add("hidden"));
+
+  document.querySelectorAll(".sample-btn").forEach(btn => {
+    btn.addEventListener("click", () => loadSample(btn.dataset.sample));
+  });
+
+  initPalette();
+  render();
+})();
