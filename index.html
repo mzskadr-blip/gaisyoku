@@ -15,11 +15,7 @@
       --danger: #dc2626;
       --win: #d97706;
     }
-
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
@@ -27,7 +23,6 @@
       color: var(--text);
       line-height: 1.4;
     }
-
     .header {
       background: #111827;
       color: #fff;
@@ -38,158 +33,88 @@
       align-items: center;
       gap: 10px;
     }
+    .header h1 { margin: 0; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; }
+    .badge { font-size: 0.72rem; background: #374151; padding: 3px 8px; border-radius: 999px; font-weight: normal; }
+    .controls-top { display: flex; flex-wrap: wrap; gap: 8px; }
 
-    .header h1 {
-      margin: 0;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .badge {
-      font-size: 0.75rem;
-      background: #374151;
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-weight: normal;
-    }
-
-    .controls-top {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .container {
-      max-width: 1100px;
+    /* 2カラムレイアウト */
+    .page-layout {
+      max-width: 1440px;
       margin: 0 auto;
       padding: 12px;
       display: flex;
-      flex-direction: column;
-      gap: 12px;
+      align-items: flex-start;
+      gap: 14px;
     }
+    .main-column { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+    .sidebar-column { width: 320px; flex-shrink: 0; position: sticky; top: 12px; }
 
-    .status-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      background: var(--panel-bg);
-      border: 1px solid var(--border);
+    /* 役一覧パネル */
+    .yaku-panel h2 { border-bottom: 2px solid var(--border); padding-bottom: 6px; }
+    .formula-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
       border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 0.9rem;
-    }
-
-    .stat-box {
-      padding-right: 12px;
-      border-right: 1px solid var(--border);
-    }
-
-    .stat-box:last-child {
-      border-right: none;
-      flex: 1;
-      color: var(--primary);
-      font-weight: 600;
-    }
-
-    .panel {
-      background: var(--panel-bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 14px;
-    }
-
-    .panel h2 {
+      padding: 8px 10px;
+      font-size: 0.82rem;
+      color: #1e3a8a;
       margin: 0 0 10px 0;
-      font-size: 0.95rem;
     }
+    .yaku-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .yaku-list li { border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; background: #f9fafb; }
+    .yaku-list li.yaku-special { background: #fff1f2; border-color: #fecdd3; }
+    .yaku-head { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-bottom: 3px; }
+    .yaku-name { font-weight: 700; font-size: 0.85rem; }
+    .yaku-pt {
+      background: #1f2937; color: #fff; font-size: 0.73rem; font-weight: 700;
+      padding: 2px 7px; border-radius: 999px; white-space: nowrap;
+    }
+    .yaku-special .yaku-pt { background: #e11d48; }
+    .yaku-desc { font-size: 0.74rem; color: #4b5563; }
 
-    .panel h2 small {
-      font-weight: normal;
-      color: var(--muted);
-      font-size: 0.8rem;
+    /* ステータス・パネル */
+    .status-bar {
+      display: flex; flex-wrap: wrap; gap: 10px; background: var(--panel-bg);
+      border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-size: 0.9rem;
     }
-
-    .panel-header {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .panel-header h2 {
-      margin: 0;
-    }
-
-    .action-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+    .stat-box { padding-right: 12px; border-right: 1px solid var(--border); }
+    .stat-box:last-child { border-right: none; flex: 1; color: var(--primary); font-weight: 600; }
+    .panel { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+    .panel h2 { margin: 0 0 10px 0; font-size: 0.95rem; }
+    .panel h2 small { font-weight: normal; color: var(--muted); font-size: 0.8rem; }
+    .panel-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .panel-header h2 { margin: 0; }
+    .action-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 
     .btn {
-      border: none;
-      border-radius: 6px;
-      padding: 8px 14px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity 0.15s, transform 0.1s;
+      border: none; border-radius: 6px; padding: 8px 14px; font-size: 0.85rem;
+      font-weight: 600; cursor: pointer; transition: opacity 0.15s, transform 0.1s;
     }
-
-    .btn:active:not(:disabled) {
-      transform: scale(0.97);
-    }
-
-    .btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
+    .btn:active:not(:disabled) { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .btn-primary { background: var(--primary); color: #fff; }
     .btn-secondary { background: #4b5563; color: #fff; }
     .btn-danger { background: var(--danger); color: #fff; }
     .btn-win { background: var(--win); color: #fff; animation: pulse 1.2s infinite; }
     .btn-outline { background: #fff; color: var(--text); border: 1px solid var(--border); }
-
     @keyframes pulse {
       0%, 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.5); }
       50% { box-shadow: 0 0 0 6px rgba(217, 119, 6, 0); }
     }
 
-    /* 牌デザイン */
-    .hand-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      min-height: 84px;
-      align-items: flex-end;
-    }
-
-    .tile-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .discard-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      min-height: 54px;
-    }
+    /* 牌デザイン（カテゴリ5〜6文字が切れないよう幅とフォント調整） */
+    .hand-row { display: flex; flex-wrap: wrap; gap: 6px; min-height: 90px; align-items: flex-end; }
+    .tile-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .discard-grid { display: flex; flex-wrap: wrap; gap: 5px; min-height: 60px; }
 
     .tile {
-      width: 68px;
-      min-height: 82px;
+      width: 76px;
+      min-height: 88px;
       background: #fffdf7;
       border: 2px solid #cbd5e1;
       border-bottom-width: 5px;
       border-radius: 7px;
-      padding: 4px;
+      padding: 4px 3px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -197,58 +122,40 @@
       text-align: center;
       cursor: pointer;
       user-select: none;
-      position: relative;
       transition: transform 0.12s, border-color 0.12s;
     }
-
-    .tile:hover {
-      border-color: #94a3b8;
-    }
-
-    .tile.selected {
-      transform: translateY(-10px);
-      border-color: var(--primary);
-      box-shadow: 0 6px 12px rgba(37, 99, 235, 0.25);
-    }
-
-    .tile.just-drawn {
-      margin-left: 10px;
-    }
-
-    .tile.special-yamaoka {
-      background: #fff1f2;
-      border-color: #e11d48;
-    }
-
-    .tile.small {
-      width: 56px;
-      min-height: 64px;
-      padding: 3px;
-      cursor: default;
-    }
+    .tile:hover { border-color: #94a3b8; }
+    .tile.selected { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 6px 12px rgba(37,99,235,0.25); }
+    .tile.just-drawn { margin-left: 10px; }
+    .tile.special-yamaoka { background: #fff1f2; border-color: #e11d48; }
+    .tile.small { width: 64px; min-height: 72px; padding: 3px 2px; cursor: default; }
 
     .tile-cat {
-      font-size: 0.62rem;
+      font-size: 10px;
       font-weight: 700;
       color: #fff;
-      padding: 1px 4px;
+      padding: 2px 2px;
       border-radius: 3px;
       width: 100%;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
     }
+    .tile-cat.long-cat { font-size: 9px; letter-spacing: -0.06em; }
+    .tile.small .tile-cat { font-size: 9px; }
+    .tile.small .tile-cat.long-cat { font-size: 8px; letter-spacing: -0.07em; }
 
     .tile-name {
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 700;
       line-height: 1.15;
-      word-break: break-all;
+      word-break: break-word;
       margin: 2px 0;
     }
+    .tile.small .tile-name { font-size: 0.66rem; }
 
     .tile-pt {
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       font-weight: 700;
       color: #475569;
       background: #e2e8f0;
@@ -256,106 +163,38 @@
       border-radius: 999px;
     }
 
-    .palette-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
-      gap: 6px;
-    }
-
-    .palette-grid .tile {
-      width: 100%;
-      min-height: 74px;
-    }
-
-    .hint {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin: 0 0 10px 0;
-    }
-
-    .hidden {
-      display: none !important;
-    }
+    .palette-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 6px; }
+    .palette-grid .tile { width: 100%; min-height: 82px; }
+    .hint { font-size: 0.8rem; color: var(--muted); margin: 0 0 10px 0; }
+    .hidden { display: none !important; }
 
     /* モーダル */
     .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.55);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      z-index: 100;
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.55);
+      display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 100;
     }
-
     .modal-content {
-      background: #fff;
-      border-radius: 12px;
-      max-width: 680px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 18px;
+      background: #fff; border-radius: 12px; max-width: 720px; width: 100%;
+      max-height: 90vh; overflow-y: auto; padding: 18px;
     }
+    .win-type { font-size: 1.05rem; font-weight: 700; color: var(--win); }
+    .win-decomposition { display: flex; flex-direction: column; gap: 10px; margin: 12px 0; }
+    .meld-group { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 8px; }
+    .meld-label { font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 6px; }
+    .win-summary { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 10px; margin-bottom: 12px; }
+    .sample-list { display: flex; flex-direction: column; gap: 8px; }
+    .sample-btn { text-align: left; padding: 10px 12px; }
 
-    .win-type {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--win);
+    @media (max-width: 960px) {
+      .page-layout { flex-direction: column; }
+      .sidebar-column { width: 100%; position: static; }
     }
-
-    .win-decomposition {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin: 12px 0;
-    }
-
-    .meld-group {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px;
-    }
-
-    .meld-label {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #334155;
-      margin-bottom: 6px;
-    }
-
-    .win-summary {
-      background: #fffbeb;
-      border: 1px solid #fde68a;
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 12px;
-    }
-
-    .sample-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .sample-btn {
-      text-align: left;
-      padding: 10px 12px;
-    }
-
     @media (max-width: 600px) {
-      .tile {
-        width: 56px;
-        min-height: 72px;
-      }
-      .tile-name {
-        font-size: 0.68rem;
-      }
-      .tile.just-drawn {
-        margin-left: 6px;
-      }
+      .tile { width: 64px; min-height: 78px; }
+      .tile-cat { font-size: 9px; }
+      .tile-cat.long-cat { font-size: 8px; letter-spacing: -0.07em; }
+      .tile-name { font-size: 0.68rem; }
+      .tile.just-drawn { margin-left: 6px; }
     }
   </style>
 </head>
@@ -369,61 +208,108 @@
     </div>
   </header>
 
-  <main class="container">
-    <!-- ステータスバー -->
-    <section class="status-bar">
-      <div class="stat-box">山牌残り: <strong id="wallCount">0</strong> 枚</div>
-      <div class="stat-box">手牌枚数: <strong id="handCount">0</strong> 枚</div>
-      <div class="stat-box">捨て牌: <strong id="discardCount">0</strong> 枚</div>
-      <div class="stat-box" id="statusMessage">「親で配牌」または「子で配牌」を押してください</div>
-    </section>
+  <div class="page-layout">
+    <main class="main-column">
+      <section class="status-bar">
+        <div class="stat-box">山牌残り: <strong id="wallCount">0</strong> 枚</div>
+        <div class="stat-box">手牌枚数: <strong id="handCount">0</strong> 枚</div>
+        <div class="stat-box">捨て牌: <strong id="discardCount">0</strong> 枚</div>
+        <div class="stat-box" id="statusMessage">「親で配牌」または「子で配牌」を押してください</div>
+      </section>
 
-    <!-- 待ち牌（テンパイ）表示 -->
-    <section id="waitSection" class="panel hidden">
-      <h2>テンパイ中！ 待ち牌（ロン・ツモ対象）</h2>
-      <div id="waitTiles" class="tile-row small"></div>
-    </section>
+      <section id="waitSection" class="panel hidden">
+        <h2>テンパイ中！ 待ち牌（ロン・ツモ対象）</h2>
+        <div id="waitTiles" class="tile-row small"></div>
+      </section>
 
-    <!-- 捨て牌（河） -->
-    <section class="panel">
-      <h2>捨て牌</h2>
-      <div id="discardArea" class="discard-grid"></div>
-    </section>
+      <section class="panel">
+        <h2>捨て牌</h2>
+        <div id="discardArea" class="discard-grid"></div>
+      </section>
 
-    <!-- 自分の手牌 -->
-    <section class="panel hand-panel">
-      <div class="panel-header">
-        <h2>自分の手牌 <small>（タップで選択 → もう一度タップ または「捨てる」ボタンで打牌）</small></h2>
-        <div class="action-buttons">
-          <button id="btnTsumoDraw" class="btn btn-primary" disabled>山からツモ</button>
-          <button id="btnDiscard" class="btn btn-danger" disabled>選択した牌を捨てる</button>
-          <button id="btnWin" class="btn btn-win" disabled>アガリ確認！</button>
+      <section class="panel hand-panel">
+        <div class="panel-header">
+          <h2>自分の手牌 <small>（タップ選択 → 再タップ or「捨てる」で打牌）</small></h2>
+          <div class="action-buttons">
+            <button id="btnTsumoDraw" class="btn btn-primary" disabled>山からツモ</button>
+            <button id="btnDiscard" class="btn btn-danger" disabled>選択した牌を捨てる</button>
+            <button id="btnWin" class="btn btn-win" disabled>アガリ確認！</button>
+          </div>
         </div>
-      </div>
-      <div id="handArea" class="hand-row"></div>
-    </section>
+        <div id="handArea" class="hand-row"></div>
+      </section>
 
-    <!-- ロンテスト＆検証用パレット -->
-    <section class="panel">
-      <h2>全37種 牌パレット（13枚のときタップで「ロン」テスト / 検証用追加）</h2>
-      <p class="hint">
-        ※モード切替：
-        <label><input type="radio" name="paletteMode" value="ron" checked /> 13枚時にタップして「ロン」テスト</label>
-        <label><input type="radio" name="paletteMode" value="edit" /> 手牌を自由に入れ替える（先頭と交換/追加）</label>
-      </p>
-      <div id="paletteArea" class="palette-grid"></div>
-    </section>
-  </main>
+      <section class="panel">
+        <h2>全37種 牌パレット（13枚のときタップで「ロン」テスト / 検証用追加）</h2>
+        <p class="hint">
+          ※モード切替：
+          <label><input type="radio" name="paletteMode" value="ron" checked /> 13枚時にタップして「ロン」テスト</label>
+          <label><input type="radio" name="paletteMode" value="edit" /> 手牌を自由に入れ替える（先頭と交換/追加）</label>
+        </p>
+        <div id="paletteArea" class="palette-grid"></div>
+      </section>
+    </main>
 
-  <!-- アガリ判定結果モーダル -->
+    <!-- 右：役一覧サイドパネル -->
+    <aside class="sidebar-column">
+      <section class="panel yaku-panel">
+        <h2>役・加算ポイント一覧</h2>
+        <p class="formula-box">
+          <strong>基本計算式：</strong><br />
+          牌の合計点 × 加算ポイント合計 × 1,000<br />
+          <small>※親アガリは1.5倍 / 鳴いて役なしは÷2</small>
+        </p>
+        <ul class="yaku-list">
+          <li>
+            <div class="yaku-head"><span class="yaku-name">ロン / ツモ</span><span class="yaku-pt">＋1</span></div>
+            <div class="yaku-desc">どちらか一方のみ加算（役なしアガリも可）</div>
+          </li>
+          <li>
+            <div class="yaku-head"><span class="yaku-name">リーチ</span><span class="yaku-pt">＋1</span></div>
+            <div class="yaku-desc">門前（鳴きなし）でテンパイ宣言</div>
+          </li>
+          <li>
+            <div class="yaku-head"><span class="yaku-name">一発</span><span class="yaku-pt">＋1</span></div>
+            <div class="yaku-desc">リーチ後、鳴きが入る前にアガリ</div>
+          </li>
+          <li>
+            <div class="yaku-head"><span class="yaku-name">七対子（チートイツ）</span><span class="yaku-pt">＋1</span></div>
+            <div class="yaku-desc">異なる7種類を2枚ずつ（門前限定）</div>
+          </li>
+          <li>
+            <div class="yaku-head"><span class="yaku-name">安い・早い・うまい</span><span class="yaku-pt">0 / ＋1</span></div>
+            <div class="yaku-desc">吉野家×3・松屋×3・すき家×3のどれか1組（鳴きOK・半減無効）。<br /><strong>1組目：＋0 ／ 2組目：＋1</strong></div>
+          </li>
+          <li>
+            <div class="yaku-head"><span class="yaku-name">三昧</span><span class="yaku-pt">＋3 <small>(鳴＋1)</small></span></div>
+            <div class="yaku-desc">同カテゴリ3ブランドすべての刻子を完成</div>
+          </li>
+          <li>
+            <div class="yaku-head"><span class="yaku-name">高級グルメ</span><span class="yaku-pt">＋4 <small>(鳴＋2)</small></span></div>
+            <div class="yaku-desc">14枚すべて4点または5点の牌で構成</div>
+          </li>
+          <li>
+            <div class="yaku-head"><span class="yaku-name">通常ドラ / コメダ珈琲</span><span class="yaku-pt">各＋1</span></div>
+            <div class="yaku-desc">表示牌と同じ牌1枚につき＋1（山岡家除く）。コメダ珈琲は常時ドラ1枚につき＋1。</div>
+          </li>
+          <li class="yaku-special">
+            <div class="yaku-head"><span class="yaku-name">特殊：山岡家（下克上）</span><span class="yaku-pt">0点</span></div>
+            <div class="yaku-desc">山岡家×3（ポン可）でアガると、点数清算直後に<strong>1位↔4位、2位↔3位</strong>の持ち点を交換！<br /><small>※ラーメン順子や雀頭では効果なし（0点）</small></div>
+          </li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+
+  <!-- アガリ判定モーダル -->
   <div id="winModal" class="modal hidden">
     <div class="modal-content">
-      <h2>アガリ形 完成！（第1段階：面子・雀頭判定）</h2>
+      <h2>アガリ形 完成！（第1段階：形・面子判定）</h2>
       <p id="winTypeLabel" class="win-type"></p>
       <div id="winDecomposition" class="win-decomposition"></div>
       <div class="win-summary">
         <div>牌の合計点（山岡家は0点）：<strong id="winTilePoints">0</strong> 点</div>
-        <p class="hint">※役（三昧・高級グルメ・安い早いうまい等）とドラ・点棒計算は第2段階で実装します。</p>
+        <p class="hint">※役（三昧・高級グルメ・安い早いうまい・七対子等）の加算計算と点棒清算は第2段階で実装します。</p>
       </div>
       <button id="btnCloseModal" class="btn btn-primary">閉じる</button>
     </div>
@@ -434,18 +320,11 @@
     <div class="modal-content">
       <h2>ルール検証用サンプル手牌</h2>
       <div class="sample-list">
-        <button class="btn btn-outline sample-btn" data-sample="yamaoka_shuntsu">
-          ① 山岡家入りラーメン順子（丸源＋山岡家＋8番）＆ アガリ形
-        </button>
-        <button class="btn btn-outline sample-btn" data-sample="yamaoka_kotsu">
-          ② 山岡家×3（刻子）含みアガリ形
-        </button>
-        <button class="btn btn-outline sample-btn" data-sample="gyudon_zanmai">
-          ③ 吉野家×3・松屋×3・すき家×3（牛丼3種刻子）
-        </button>
-        <button class="btn btn-outline sample-btn" data-sample="one_point_shuntsu">
-          ④ 1点牌を含む順子（サイゼ＋ガスト＋ロイホ等）テンパイ13枚
-        </button>
+        <button class="btn btn-outline sample-btn" data-sample="yamaoka_shuntsu">① 山岡家入りラーメン順子（丸源＋山岡家＋8番）＆ アガリ形</button>
+        <button class="btn btn-outline sample-btn" data-sample="yamaoka_kotsu">② 山岡家×3（刻子）含みアガリ形</button>
+        <button class="btn btn-outline sample-btn" data-sample="gyudon_zanmai">③ 吉野家×3・松屋×3・すき家×3（牛丼三昧）</button>
+        <button class="btn btn-outline sample-btn" data-sample="one_point_shuntsu">④ 1点牌を含む順子（サイゼ＋ガスト＋ロイホ等）テンパイ13枚</button>
+        <button class="btn btn-outline sample-btn" data-sample="chiitoitsu">⑤ 七対子（異なる7種類×2枚）アガリ形</button>
       </div>
       <button id="btnCloseSampleModal" class="btn btn-secondary" style="margin-top: 12px;">閉じる</button>
     </div>
@@ -455,75 +334,52 @@
     (function () {
       "use strict";
 
-      // =========================================================
-      // 1. 牌マスター定義（37種 × 4枚 ＝ 148枚）＆ ゲーム定数
-      // =========================================================
       const CATEGORY_COLORS = {
-        "牛丼": "#ea580c",
-        "ラーメン": "#dc2626",
-        "ファミレス": "#db2777",
-        "しゃぶしゃぶ": "#9333ea",
-        "カフェ": "#78350f",
-        "寿司・海鮮": "#0284c7",
-        "スイーツ": "#ec4899",
-        "焼肉": "#b91c1c",
-        "ハンバーガー": "#d97706",
-        "うどん": "#ca8a04",
-        "和食・定食": "#16a34a",
-        "居酒屋": "#0f766e"
+        "牛丼": "#ea580c", "ラーメン": "#dc2626", "ファミレス": "#db2777",
+        "しゃぶしゃぶ": "#9333ea", "カフェ": "#78350f", "寿司・海鮮": "#0284c7",
+        "スイーツ": "#ec4899", "焼肉": "#b91c1c", "ハンバーガー": "#d97706",
+        "うどん": "#ca8a04", "和食・定食": "#16a34a", "居酒屋": "#0f766e"
       };
 
+      // 37種の牌定義（表示カテゴリ名は5文字以内に収まりやすいよう調整可能、内部categoryは統一）
       const TILES = [
-        // 牛丼
-        { id: "yoshinoya",  category: "牛丼",       name: "吉野家",             points: 1 },
-        { id: "matsuya",    category: "牛丼",       name: "松屋",               points: 1 },
-        { id: "sukiya",     category: "牛丼",       name: "すき家",             points: 1 },
-        // ラーメン
-        { id: "hachiban",   category: "ラーメン",   name: "8番らーめん",        points: 2 },
-        { id: "marugen",    category: "ラーメン",   name: "丸源ラーメン",       points: 2 },
-        { id: "ippudo",     category: "ラーメン",   name: "一風堂",             points: 3 },
-        // ファミレス
-        { id: "royalhost",  category: "ファミレス", name: "ロイヤルホスト",     points: 4 },
-        { id: "saizeriya",  category: "ファミレス", name: "サイゼリヤ",         points: 1 },
-        { id: "gusto",      category: "ファミレス", name: "ガスト",             points: 2 },
-        // しゃぶしゃぶ
-        { id: "shabuyo",    category: "しゃぶしゃぶ", name: "しゃぶ葉",         points: 3 },
-        { id: "yuzuan",     category: "しゃぶしゃぶ", name: "ゆず庵",           points: 4 },
-        { id: "onyasai",    category: "しゃぶしゃぶ", name: "しゃぶしゃぶ温野菜", points: 4 },
-        // カフェ
-        { id: "starbucks",  category: "カフェ",     name: "スターバックス",     points: 3 },
-        { id: "komeda",     category: "カフェ",     name: "コメダ珈琲",         points: 3, isAlwaysDora: true },
-        { id: "doutor",     category: "カフェ",     name: "ドトール",           points: 2 },
-        // 寿司・海鮮
-        { id: "kurazushi",  category: "寿司・海鮮", name: "くら寿司",           points: 2 },
-        { id: "sushiro",    category: "寿司・海鮮", name: "スシロー",           points: 2 },
-        { id: "mekiki",     category: "寿司・海鮮", name: "目利きの銀次",       points: 4 },
-        // スイーツ
-        { id: "misdo",      category: "スイーツ",   name: "ミスタードーナツ",   points: 1 },
-        { id: "chateraise", category: "スイーツ",   name: "シャトレーゼ",       points: 1 },
-        { id: "baskin",     category: "スイーツ",   name: "サーティワン",       points: 2 },
-        // 焼肉
-        { id: "gyukaku",    category: "焼肉",       name: "牛角",               points: 3 },
-        { id: "stamina",    category: "焼肉",       name: "すたみな太郎",       points: 2 },
-        { id: "jojoen",     category: "焼肉",       name: "叙々苑",             points: 5 },
-        // ハンバーガー
-        { id: "mcdonalds",  category: "ハンバーガー", name: "マクドナルド",     points: 1 },
-        { id: "mos",        category: "ハンバーガー", name: "モスバーガー",     points: 2 },
-        { id: "zetteria",   category: "ハンバーガー", name: "ゼッテリア",       points: 2 },
-        // うどん
-        { id: "hanamaru",   category: "うどん",     name: "はなまるうどん",     points: 1 },
-        { id: "marugame",   category: "うどん",     name: "丸亀製麺",           points: 2 },
-        { id: "sukesan",    category: "うどん",     name: "資さんうどん",       points: 2 },
-        // 和食・定食
-        { id: "ootoya",     category: "和食・定食", name: "大戸屋",             points: 3 },
-        { id: "yayoiken",   category: "和食・定食", name: "やよい軒",           points: 2 },
-        { id: "katsuya",    category: "和食・定食", name: "かつや",             points: 2 },
-        // 居酒屋
-        { id: "torikizoku", category: "居酒屋",     name: "鳥貴族",             points: 3 },
-        { id: "akiyoshi",   category: "居酒屋",     name: "秋吉",               points: 3 },
-        { id: "isomaru",    category: "居酒屋",     name: "磯丸水産",           points: 4 },
-        // 特殊牌（ラーメンカテゴリとして順子にも使用可能、0点、ドラ対象外）
-        { id: "yamaokaya",  category: "ラーメン",   name: "山岡家",             points: 0, isSpecial: true }
+        { id: "yoshinoya",  category: "牛丼",       displayCat: "牛丼",       name: "吉野家",           points: 1 },
+        { id: "matsuya",    category: "牛丼",       displayCat: "牛丼",       name: "松屋",             points: 1 },
+        { id: "sukiya",     category: "牛丼",       displayCat: "牛丼",       name: "すき家",           points: 1 },
+        { id: "hachiban",   category: "ラーメン",   displayCat: "ラーメン",   name: "8番らーめん",      points: 2 },
+        { id: "marugen",    category: "ラーメン",   displayCat: "ラーメン",   name: "丸源ラーメン",     points: 2 },
+        { id: "ippudo",     category: "ラーメン",   displayCat: "ラーメン",   name: "一風堂",           points: 3 },
+        { id: "royalhost",  category: "ファミレス", displayCat: "ファミレス", name: "ロイヤルホスト",   points: 4 },
+        { id: "saizeriya",  category: "ファミレス", displayCat: "ファミレス", name: "サイゼリヤ",       points: 1 },
+        { id: "gusto",      category: "ファミレス", displayCat: "ファミレス", name: "ガスト",           points: 2 },
+        { id: "shabuyo",    category: "しゃぶしゃぶ", displayCat: "しゃぶしゃぶ", name: "しゃぶ葉",     points: 3 },
+        { id: "yuzuan",     category: "しゃぶしゃぶ", displayCat: "しゃぶしゃぶ", name: "ゆず庵",       points: 4 },
+        { id: "onyasai",    category: "しゃぶしゃぶ", displayCat: "しゃぶしゃぶ", name: "しゃぶしゃぶ温野菜", points: 4 },
+        { id: "starbucks",  category: "カフェ",     displayCat: "カフェ",     name: "スターバックス",   points: 3 },
+        { id: "komeda",     category: "カフェ",     displayCat: "カフェ",     name: "コメダ珈琲",       points: 3, isAlwaysDora: true },
+        { id: "doutor",     category: "カフェ",     displayCat: "カフェ",     name: "ドトール",         points: 2 },
+        { id: "kurazushi",  category: "寿司・海鮮", displayCat: "寿司海鮮",   name: "くら寿司",         points: 2 },
+        { id: "sushiro",    category: "寿司・海鮮", displayCat: "寿司海鮮",   name: "スシロー",         points: 2 },
+        { id: "mekiki",     category: "寿司・海鮮", displayCat: "寿司海鮮",   name: "目利きの銀次",     points: 4 },
+        { id: "misdo",      category: "スイーツ",   displayCat: "スイーツ",   name: "ミスタードーナツ", points: 1 },
+        { id: "chateraise", category: "スイーツ",   displayCat: "スイーツ",   name: "シャトレーゼ",     points: 1 },
+        { id: "baskin",     category: "スイーツ",   displayCat: "スイーツ",   name: "サーティワン",     points: 2 },
+        { id: "gyukaku",    category: "焼肉",       displayCat: "焼肉",       name: "牛角",             points: 3 },
+        { id: "stamina",    category: "焼肉",       displayCat: "焼肉",       name: "すたみな太郎",     points: 2 },
+        { id: "jojoen",     category: "焼肉",       displayCat: "焼肉",       name: "叙々苑",           points: 5 },
+        { id: "mcdonalds",  category: "ハンバーガー", displayCat: "ハンバーグ", name: "マクドナルド",   points: 1 },
+        { id: "mos",        category: "ハンバーガー", displayCat: "ハンバーグ", name: "モスバーガー",   points: 2 },
+        { id: "zetteria",   category: "ハンバーガー", displayCat: "ハンバーグ", name: "ゼッテリア",     points: 2 },
+        { id: "hanamaru",   category: "うどん",     displayCat: "うどん",     name: "はなまるうどん",   points: 1 },
+        { id: "marugame",   category: "うどん",     displayCat: "うどん",     name: "丸亀製麺",         points: 2 },
+        { id: "sukesan",    category: "うどん",     displayCat: "うどん",     name: "資さんうどん",     points: 2 },
+        { id: "ootoya",     category: "和食・定食", displayCat: "和食定食",   name: "大戸屋",           points: 3 },
+        { id: "yayoiken",   category: "和食・定食", displayCat: "和食定食",   name: "やよい軒",         points: 2 },
+        { id: "katsuya",    category: "和食・定食", displayCat: "和食定食",   name: "かつや",           points: 2 },
+        { id: "torikizoku", category: "居酒屋",     displayCat: "居酒屋",     name: "鳥貴族",           points: 3 },
+        { id: "akiyoshi",   category: "居酒屋",     displayCat: "居酒屋",     name: "秋吉",             points: 3 },
+        { id: "isomaru",    category: "居酒屋",     displayCat: "居酒屋",     name: "磯丸水産",         points: 4 },
+        { id: "yamaokaya",  category: "ラーメン",   displayCat: "ラーメン",   name: "山岡家",           points: 0, isSpecial: true }
       ];
 
       const GAME_CONFIG = {
@@ -535,24 +391,18 @@
 
       const TILE_MAP = {};
       const CATEGORY_TILE_INDEXES = {};
-
       TILES.forEach((tile, index) => {
         tile.index = index;
         tile.color = CATEGORY_COLORS[tile.category] || "#475569";
         TILE_MAP[tile.id] = tile;
-
-        if (!CATEGORY_TILE_INDEXES[tile.category]) {
-          CATEGORY_TILE_INDEXES[tile.category] = [];
-        }
+        if (!CATEGORY_TILE_INDEXES[tile.category]) CATEGORY_TILE_INDEXES[tile.category] = [];
         CATEGORY_TILE_INDEXES[tile.category].push(index);
       });
 
       function createShuffledWall() {
         const wall = [];
         for (const tile of TILES) {
-          for (let c = 0; c < 4; c++) {
-            wall.push(tile.id);
-          }
+          for (let c = 0; c < 4; c++) wall.push(tile.id);
         }
         for (let i = wall.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
@@ -561,9 +411,7 @@
         return wall;
       }
 
-      function getTile(tileId) {
-        return TILE_MAP[tileId] || null;
-      }
+      function getTile(tileId) { return TILE_MAP[tileId] || null; }
 
       function createTileElement(tileId, options = {}) {
         const tile = getTile(tileId);
@@ -573,18 +421,16 @@
         if (tile.isSpecial) el.classList.add("special-yamaoka");
         if (options.selected) el.classList.add("selected");
         if (options.justDrawn) el.classList.add("just-drawn");
-
+        const catLabel = tile.displayCat || tile.category;
+        const catClass = catLabel.length >= 5 ? "tile-cat long-cat" : "tile-cat";
         el.innerHTML = `
-          <div class="tile-cat" style="background:${tile.color}">${tile.category}</div>
+          <div class="${catClass}" style="background:${tile.color}">${catLabel}</div>
           <div class="tile-name">${tile.name}</div>
           <div class="tile-pt">${tile.points}点</div>
         `;
         return el;
       }
 
-      // =========================================================
-      // 2. 手牌ロジック（ソート・アガリ形判定・待ち牌判定）
-      // =========================================================
       function sortTiles(tileIds) {
         return [...tileIds].sort((a, b) => TILE_MAP[a].index - TILE_MAP[b].index);
       }
@@ -598,16 +444,59 @@
         return counts;
       }
 
-      function findWinningDecompositions(tileIds, existingMelds = []) {
-        const expectedHandLength = 14 - existingMelds.length * 3;
-        if (tileIds.length !== expectedHandLength) {
-          return [];
+      function checkChiitoitsu(tileIds, existingMelds = []) {
+        if (existingMelds.length > 0 || tileIds.length !== 14) return null;
+        const counts = toCounts(tileIds);
+        const pairs = [];
+        for (let i = 0; i < counts.length; i++) {
+          if (counts[i] === 0) continue;
+          if (counts[i] === 2) pairs.push(TILES[i].id);
+          else return null;
+        }
+        return pairs.length === 7 ? { patternType: "chiitoitsu", pairs } : null;
+      }
+
+      function searchMelds(counts, remainingMelds, currentMelds, onFound) {
+        if (remainingMelds === 0) { onFound(); return; }
+        let firstIdx = counts.findIndex(c => c > 0);
+        if (firstIdx === -1) return;
+
+        if (counts[firstIdx] >= 3) {
+          counts[firstIdx] -= 3;
+          const tileId = TILES[firstIdx].id;
+          currentMelds.push({ type: "kotsu", category: TILES[firstIdx].category, tiles: [tileId, tileId, tileId] });
+          searchMelds(counts, remainingMelds - 1, currentMelds, onFound);
+          currentMelds.pop();
+          counts[firstIdx] += 3;
         }
 
-        const counts = toCounts(tileIds);
-        for (const c of counts) {
-          if (c > 4) return [];
+        const cat = TILES[firstIdx].category;
+        const catIndexes = CATEGORY_TILE_INDEXES[cat];
+        const posInCat = catIndexes.indexOf(firstIdx);
+        if (posInCat !== -1) {
+          for (let a = posInCat + 1; a < catIndexes.length; a++) {
+            const idx2 = catIndexes[a];
+            if (counts[idx2] < 1) continue;
+            for (let b = a + 1; b < catIndexes.length; b++) {
+              const idx3 = catIndexes[b];
+              if (counts[idx3] < 1) continue;
+              counts[firstIdx]--; counts[idx2]--; counts[idx3]--;
+              currentMelds.push({
+                type: "shuntsu", category: cat,
+                tiles: [TILES[firstIdx].id, TILES[idx2].id, TILES[idx3].id]
+              });
+              searchMelds(counts, remainingMelds - 1, currentMelds, onFound);
+              currentMelds.pop();
+              counts[firstIdx]++; counts[idx2]++; counts[idx3]++;
+            }
+          }
         }
+      }
+
+      function findWinningDecompositions(tileIds, existingMelds = []) {
+        if (tileIds.length !== 14 - existingMelds.length * 3) return [];
+        const counts = toCounts(tileIds);
+        if (counts.some(c => c > 4)) return [];
 
         const results = [];
         const seenKeys = new Set();
@@ -615,91 +504,22 @@
 
         for (let headIdx = 0; headIdx < TILES.length; headIdx++) {
           if (counts[headIdx] < 2) continue;
-
           counts[headIdx] -= 2;
           const melds = [];
           searchMelds(counts, targetMeldCount, melds, () => {
             const allMelds = [...existingMelds, ...melds];
-            const normalizedMelds = allMelds
-              .map(m => `${m.type}:${m.tiles.join(",")}`)
-              .sort()
-              .join("|");
-            const key = `head:${TILES[headIdx].id}#${normalizedMelds}`;
+            const key = `head:${TILES[headIdx].id}#` + allMelds.map(m => `${m.type}:${m.tiles.join(",")}`).sort().join("|");
             if (!seenKeys.has(key)) {
               seenKeys.add(key);
-              results.push({
-                head: TILES[headIdx].id,
-                melds: allMelds.map(m => ({ ...m, tiles: [...m.tiles] }))
-              });
+              results.push({ patternType: "standard", head: TILES[headIdx].id, melds: allMelds.map(m => ({ ...m, tiles: [...m.tiles] })) });
             }
           });
           counts[headIdx] += 2;
         }
 
+        const chiitoitsu = checkChiitoitsu(tileIds, existingMelds);
+        if (chiitoitsu) results.push(chiitoitsu);
         return results;
-      }
-
-      function searchMelds(counts, remainingMelds, currentMelds, onFound) {
-        if (remainingMelds === 0) {
-          onFound();
-          return;
-        }
-
-        let firstIdx = -1;
-        for (let i = 0; i < counts.length; i++) {
-          if (counts[i] > 0) {
-            firstIdx = i;
-            break;
-          }
-        }
-        if (firstIdx === -1) return;
-
-        // 刻子（同じ牌3枚）
-        if (counts[firstIdx] >= 3) {
-          counts[firstIdx] -= 3;
-          const tileId = TILES[firstIdx].id;
-          currentMelds.push({
-            type: "kotsu",
-            category: TILES[firstIdx].category,
-            tiles: [tileId, tileId, tileId]
-          });
-          searchMelds(counts, remainingMelds - 1, currentMelds, onFound);
-          currentMelds.pop();
-          counts[firstIdx] += 3;
-        }
-
-        // 順子（同カテゴリ内の異なる3牌：山岡家はラーメンカテゴリのみ可）
-        const cat = TILES[firstIdx].category;
-        const catIndexes = CATEGORY_TILE_INDEXES[cat];
-        const posInCat = catIndexes.indexOf(firstIdx);
-
-        if (posInCat !== -1) {
-          for (let a = posInCat + 1; a < catIndexes.length; a++) {
-            const idx2 = catIndexes[a];
-            if (counts[idx2] < 1) continue;
-
-            for (let b = a + 1; b < catIndexes.length; b++) {
-              const idx3 = catIndexes[b];
-              if (counts[idx3] < 1) continue;
-
-              counts[firstIdx]--;
-              counts[idx2]--;
-              counts[idx3]--;
-
-              currentMelds.push({
-                type: "shuntsu",
-                category: cat,
-                tiles: [TILES[firstIdx].id, TILES[idx2].id, TILES[idx3].id]
-              });
-              searchMelds(counts, remainingMelds - 1, currentMelds, onFound);
-              currentMelds.pop();
-
-              counts[firstIdx]++;
-              counts[idx2]++;
-              counts[idx3]++;
-            }
-          }
-        }
       }
 
       function canWin(tileIds, existingMelds = []) {
@@ -707,18 +527,12 @@
       }
 
       function findWaits(hand13, existingMelds = []) {
-        if (hand13.length !== 13 - existingMelds.length * 3) {
-          return [];
-        }
+        if (hand13.length !== 13 - existingMelds.length * 3) return [];
         const counts = toCounts(hand13);
         const waits = [];
-
         for (const tile of TILES) {
           if (counts[tile.index] >= 4) continue;
-          const testHand = [...hand13, tile.id];
-          if (canWin(testHand, existingMelds)) {
-            waits.push(tile.id);
-          }
+          if (canWin([...hand13, tile.id], existingMelds)) waits.push(tile.id);
         }
         return waits;
       }
@@ -727,18 +541,8 @@
         return tileIds.reduce((sum, id) => sum + (TILE_MAP[id]?.points || 0), 0);
       }
 
-      // =========================================================
-      // 3. 第1段階 動作確認UIコントローラ
-      // =========================================================
-      const state = {
-        wall: [],
-        hand: [],
-        discards: [],
-        selectedIndex: null,
-        justDrawnTileId: null,
-        lastWinMode: "ツモ"
-      };
-
+      // UI制御
+      const state = { wall: [], hand: [], discards: [], selectedIndex: null, justDrawnTileId: null, lastWinMode: "ツモ" };
       const elWallCount = document.getElementById("wallCount");
       const elHandCount = document.getElementById("handCount");
       const elDiscardCount = document.getElementById("discardCount");
@@ -755,13 +559,11 @@
       const btnDiscard = document.getElementById("btnDiscard");
       const btnWin = document.getElementById("btnWin");
       const btnResetSamples = document.getElementById("btnResetSamples");
-
       const winModal = document.getElementById("winModal");
       const winTypeLabel = document.getElementById("winTypeLabel");
       const winDecomposition = document.getElementById("winDecomposition");
       const winTilePoints = document.getElementById("winTilePoints");
       const btnCloseModal = document.getElementById("btnCloseModal");
-
       const sampleModal = document.getElementById("sampleModal");
       const btnCloseSampleModal = document.getElementById("btnCloseSampleModal");
 
@@ -778,10 +580,7 @@
         state.wall = createShuffledWall();
         state.discards = [];
         state.selectedIndex = null;
-
-        const dealCount = isParent ? 14 : 13;
-        const rawHand = state.wall.splice(0, dealCount);
-
+        const rawHand = state.wall.splice(0, isParent ? 14 : 13);
         if (isParent) {
           const drawn = rawHand.pop();
           state.hand = [...sortTiles(rawHand), drawn];
@@ -798,10 +597,7 @@
 
       function drawTile() {
         if (state.hand.length !== 13) return;
-        if (state.wall.length === 0) {
-          elStatusMessage.textContent = "山牌がなくなりました（流局）。";
-          return;
-        }
+        if (state.wall.length === 0) { elStatusMessage.textContent = "山牌がなくなりました（流局）。"; return; }
         const drawn = state.wall.pop();
         state.hand = [...sortTiles(state.hand), drawn];
         state.justDrawnTileId = drawn;
@@ -824,19 +620,12 @@
 
       function onPaletteTileClick(tileId) {
         const mode = document.querySelector('input[name="paletteMode"]:checked').value;
-
         if (mode === "ron") {
-          if (state.hand.length !== 13) {
-            alert("ロンテストは手牌が13枚のときに実行できます。");
-            return;
-          }
+          if (state.hand.length !== 13) { alert("ロンテストは手牌が13枚のときに実行できます。"); return; }
           const testHand = [...state.hand, tileId];
           const decomps = findWinningDecompositions(testHand);
-          if (decomps.length > 0) {
-            showWinModal("ロン", testHand, decomps);
-          } else {
-            elStatusMessage.textContent = `「${getTile(tileId).name}」ではロンできません。`;
-          }
+          if (decomps.length > 0) showWinModal("ロン", testHand, decomps);
+          else elStatusMessage.textContent = `「${getTile(tileId).name}」ではロンできません。`;
         } else {
           if (state.hand.length < 14) {
             state.hand.push(tileId);
@@ -853,58 +642,47 @@
         }
       }
 
+      function createGroupSpan(label, tileIds) {
+        const wrap = document.createElement("div");
+        wrap.style.cssText = "border:1px solid #cbd5e1;border-radius:6px;padding:4px 6px;background:#fff;";
+        const cap = document.createElement("div");
+        cap.style.cssText = "font-size:0.7rem;font-weight:700;color:#475569;margin-bottom:3px;";
+        cap.textContent = label;
+        wrap.appendChild(cap);
+        const tilesDiv = document.createElement("div");
+        tilesDiv.className = "tile-row";
+        tileIds.forEach(id => tilesDiv.appendChild(createTileElement(id, { small: true })));
+        wrap.appendChild(tilesDiv);
+        return wrap;
+      }
+
       function showWinModal(modeLabel, fullHand, decomps) {
         winTypeLabel.textContent = `${modeLabel}アガリ成立！（解釈パターン数：${decomps.length}通り）`;
         winDecomposition.innerHTML = "";
-
         decomps.forEach((decomp, idx) => {
           const box = document.createElement("div");
           box.className = "meld-group";
-
           const title = document.createElement("div");
           title.className = "meld-label";
-          title.textContent = decomps.length > 1 ? `構成パターン ${idx + 1}` : "成立した4面子＋1雀頭";
+          if (decomp.patternType === "chiitoitsu") {
+            title.textContent = decomps.length > 1 ? `構成パターン ${idx + 1}（七対子）` : "成立：七対子（7対子・＋1pt）";
+          } else {
+            title.textContent = decomps.length > 1 ? `構成パターン ${idx + 1}（4面子＋1雀頭）` : "成立：4面子＋1雀頭";
+          }
           box.appendChild(title);
-
           const row = document.createElement("div");
           row.className = "tile-row";
-
-          row.appendChild(createGroupSpan("雀頭", [decomp.head, decomp.head]));
-          decomp.melds.forEach((m) => {
-            const label = m.type === "kotsu" ? "刻子" : "順子";
-            row.appendChild(createGroupSpan(label, m.tiles));
-          });
-
+          if (decomp.patternType === "chiitoitsu") {
+            decomp.pairs.forEach((pId, pIdx) => row.appendChild(createGroupSpan(`対子${pIdx + 1}`, [pId, pId])));
+          } else {
+            row.appendChild(createGroupSpan("雀頭", [decomp.head, decomp.head]));
+            decomp.melds.forEach(m => row.appendChild(createGroupSpan(m.type === "kotsu" ? "刻子" : "順子", m.tiles)));
+          }
           box.appendChild(row);
           winDecomposition.appendChild(box);
         });
-
         winTilePoints.textContent = calculateTilePoints(fullHand);
         winModal.classList.remove("hidden");
-      }
-
-      function createGroupSpan(label, tileIds) {
-        const wrap = document.createElement("div");
-        wrap.style.border = "1px solid #cbd5e1";
-        wrap.style.borderRadius = "6px";
-        wrap.style.padding = "4px 6px";
-        wrap.style.background = "#fff";
-
-        const cap = document.createElement("div");
-        cap.style.fontSize = "0.7rem";
-        cap.style.fontWeight = "700";
-        cap.style.color = "#475569";
-        cap.style.marginBottom = "3px";
-        cap.textContent = label;
-        wrap.appendChild(cap);
-
-        const tilesDiv = document.createElement("div");
-        tilesDiv.className = "tile-row";
-        tileIds.forEach(id => {
-          tilesDiv.appendChild(createTileElement(id, { small: true }));
-        });
-        wrap.appendChild(tilesDiv);
-        return wrap;
       }
 
       function render() {
@@ -915,33 +693,23 @@
         elHandArea.innerHTML = "";
         state.hand.forEach((id, idx) => {
           const isJustDrawn = idx === state.hand.length - 1 && state.hand.length === 14 && state.justDrawnTileId === id;
-          const tileEl = createTileElement(id, {
-            selected: state.selectedIndex === idx,
-            justDrawn: isJustDrawn
-          });
+          const tileEl = createTileElement(id, { selected: state.selectedIndex === idx, justDrawn: isJustDrawn });
           tileEl.addEventListener("click", () => {
             if (state.hand.length !== 14) return;
-            if (state.selectedIndex === idx) {
-              discardSelected();
-            } else {
-              state.selectedIndex = idx;
-              render();
-            }
+            if (state.selectedIndex === idx) discardSelected();
+            else { state.selectedIndex = idx; render(); }
           });
           elHandArea.appendChild(tileEl);
         });
 
         elDiscardArea.innerHTML = "";
-        state.discards.forEach((id) => {
-          elDiscardArea.appendChild(createTileElement(id, { small: true }));
-        });
+        state.discards.forEach(id => elDiscardArea.appendChild(createTileElement(id, { small: true })));
 
         btnTsumoDraw.disabled = state.hand.length !== 13 || state.wall.length === 0;
         btnDiscard.disabled = state.hand.length !== 14 || state.selectedIndex === null;
 
         if (state.hand.length === 14) {
-          const decomps = findWinningDecompositions(state.hand);
-          btnWin.disabled = decomps.length === 0;
+          btnWin.disabled = findWinningDecompositions(state.hand).length === 0;
           elWaitSection.classList.add("hidden");
         } else if (state.hand.length === 13) {
           btnWin.disabled = true;
@@ -964,38 +732,13 @@
         state.discards = [];
         state.selectedIndex = null;
         state.justDrawnTileId = null;
-
         const samples = {
-          yamaoka_shuntsu: [
-            "marugen", "yamaokaya", "hachiban",
-            "yoshinoya", "matsuya", "sukiya",
-            "gyukaku", "gyukaku", "gyukaku",
-            "komeda", "komeda", "komeda",
-            "jojoen", "jojoen"
-          ],
-          yamaoka_kotsu: [
-            "yamaokaya", "yamaokaya", "yamaokaya",
-            "hanamaru", "marugame", "sukesan",
-            "torikizoku", "akiyoshi", "isomaru",
-            "misdo", "misdo", "misdo",
-            "mcdonalds", "mcdonalds"
-          ],
-          gyudon_zanmai: [
-            "yoshinoya", "yoshinoya", "yoshinoya",
-            "matsuya", "matsuya", "matsuya",
-            "sukiya", "sukiya", "sukiya",
-            "royalhost", "saizeriya", "gusto",
-            "starbucks", "starbucks"
-          ],
-          one_point_shuntsu: [
-            "saizeriya", "gusto", "royalhost",
-            "misdo", "chateraise", "baskin",
-            "mcdonalds", "mos", "zetteria",
-            "ootoya", "yayoiken", "katsuya",
-            "kurazushi"
-          ]
+          yamaoka_shuntsu: ["marugen","yamaokaya","hachiban","yoshinoya","matsuya","sukiya","gyukaku","gyukaku","gyukaku","komeda","komeda","komeda","jojoen","jojoen"],
+          yamaoka_kotsu: ["yamaokaya","yamaokaya","yamaokaya","hanamaru","marugame","sukesan","torikizoku","akiyoshi","isomaru","misdo","misdo","misdo","mcdonalds","mcdonalds"],
+          gyudon_zanmai: ["yoshinoya","yoshinoya","yoshinoya","matsuya","matsuya","matsuya","sukiya","sukiya","sukiya","royalhost","saizeriya","gusto","starbucks","starbucks"],
+          one_point_shuntsu: ["saizeriya","gusto","royalhost","misdo","chateraise","baskin","mcdonalds","mos","zetteria","ootoya","yayoiken","katsuya","kurazushi"],
+          chiitoitsu: ["yoshinoya","yoshinoya","royalhost","royalhost","komeda","komeda","jojoen","jojoen","sukesan","sukesan","isomaru","isomaru","yamaokaya","yamaokaya"]
         };
-
         state.hand = sortTiles(samples[sampleKey]);
         state.lastWinMode = "サンプル確認";
         sampleModal.classList.add("hidden");
@@ -1009,21 +752,12 @@
       btnDiscard.addEventListener("click", discardSelected);
       btnWin.addEventListener("click", () => {
         const decomps = findWinningDecompositions(state.hand);
-        if (decomps.length > 0) {
-          showWinModal(state.lastWinMode, state.hand, decomps);
-        }
+        if (decomps.length > 0) showWinModal(state.lastWinMode, state.hand, decomps);
       });
-
       btnResetSamples.addEventListener("click", () => sampleModal.classList.remove("hidden"));
       btnCloseModal.addEventListener("click", () => winModal.classList.add("hidden"));
       btnCloseSampleModal.addEventListener("click", () => sampleModal.classList.add("hidden"));
-
-      document.querySelectorAll(".sample-btn").forEach(btn => {
-        btn.addEventListener("click", () => loadSample(btn.dataset.sample));
-      });
-
-      // 念のため設定オブジェクトをグローバルに保持
-      window.GourmetGameConfig = GAME_CONFIG;
+      document.querySelectorAll(".sample-btn").forEach(btn => btn.addEventListener("click", () => loadSample(btn.dataset.sample)));
 
       initPalette();
       render();
